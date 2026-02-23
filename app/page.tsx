@@ -37,49 +37,48 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'customer' | 'barista' | 'owner'>('customer')
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white font-sans">
       <Toaster position="top-center" />
 
       {/* Top Navigation */}
-      <div className="bg-amber-900 text-white shadow-lg">
+      <div className="bg-[#1c1c1c] text-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between py-3">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">☕</span>
-              <h1 className="text-lg font-bold">Brew & Co</h1>
-            </div>
+          <div className="flex items-center justify-between py-4">
+            <h1 className="font-serif text-2xl font-bold tracking-tight text-[var(--color-accent)]">
+              Brew & Co
+            </h1>
           </div>
           {/* Tabs */}
-          <div className="flex gap-1">
+          <div className="flex gap-6 -mb-px">
             <button
               onClick={() => setActiveTab('customer')}
-              className={`px-5 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+              className={`pb-3 pt-1 text-sm font-medium transition-colors border-b-2 ${
                 activeTab === 'customer'
-                  ? 'bg-amber-50 text-amber-900'
-                  : 'text-amber-200 hover:text-white'
+                  ? 'text-[var(--color-accent)] border-[var(--color-accent)]'
+                  : 'text-stone-400 hover:text-stone-300 border-transparent'
               }`}
             >
-              🛒 Order
+              Order
             </button>
             <button
               onClick={() => setActiveTab('barista')}
-              className={`px-5 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+              className={`pb-3 pt-1 text-sm font-medium transition-colors border-b-2 ${
                 activeTab === 'barista'
-                  ? 'bg-amber-50 text-amber-900'
-                  : 'text-amber-200 hover:text-white'
+                  ? 'text-[var(--color-accent)] border-[var(--color-accent)]'
+                  : 'text-stone-400 hover:text-stone-300 border-transparent'
               }`}
             >
-              👨‍🍳 Barista
+              Barista
             </button>
             <button
               onClick={() => setActiveTab('owner')}
-              className={`px-5 py-2 text-sm font-medium rounded-t-lg transition-colors ${
+              className={`pb-3 pt-1 text-sm font-medium transition-colors border-b-2 ${
                 activeTab === 'owner'
-                  ? 'bg-amber-50 text-amber-900'
-                  : 'text-amber-200 hover:text-white'
+                  ? 'text-[var(--color-accent)] border-[var(--color-accent)]'
+                  : 'text-stone-400 hover:text-stone-300 border-transparent'
               }`}
             >
-              📊 Owner
+              Owner
             </button>
           </div>
         </div>
@@ -264,23 +263,20 @@ function CustomerView() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-100px)]">
-      {/* Menu panel - left */}
-      <aside className="w-72 shrink-0 flex flex-col border-r border-amber-200 bg-white shadow-sm overflow-hidden">
-        <div className="px-4 py-3 border-b border-amber-100 bg-amber-50">
-          <h2 className="font-bold text-amber-900 text-sm uppercase tracking-wide">Menu</h2>
-        </div>
-        <div className="flex-1 overflow-y-auto py-3">
+    <div className="flex h-[calc(100vh-100px)] bg-[#fafaf9]">
+      {/* Menu panel - left, editorial */}
+      <aside className="w-80 shrink-0 flex flex-col border-r border-stone-200/80 bg-white overflow-hidden">
+        <div className="flex-1 overflow-y-auto py-10 pl-10 pr-8">
           {Object.entries(MENU).map(([key, category]) => (
-            <div key={key} className="px-4 mb-5">
-              <h3 className="text-amber-800 font-semibold text-xs uppercase tracking-wider mb-2 sticky top-0 bg-white py-1 border-b border-amber-100">
+            <div key={key} className="mb-10">
+              <h3 className="font-sans text-[11px] font-medium uppercase tracking-[0.2em] text-stone-500 mb-4">
                 {category.name}
               </h3>
-              <ul className="space-y-1.5">
+              <ul className="space-y-3">
                 {Object.entries(category.items).map(([itemKey, item]) => (
-                  <li key={itemKey} className="flex justify-between items-baseline gap-2 text-sm">
-                    <span className="text-gray-800 truncate">{item.name}</span>
-                    <span className="text-amber-900 font-medium shrink-0">${item.price.toFixed(2)}</span>
+                  <li key={itemKey} className="flex justify-between items-baseline gap-4 text-sm">
+                    <span className="text-stone-800">{item.name}</span>
+                    <span className="text-stone-600 tabular-nums shrink-0">${item.price.toFixed(2)}</span>
                   </li>
                 ))}
               </ul>
@@ -292,107 +288,106 @@ function CustomerView() {
       {/* Chat - right */}
       <div className="flex-1 flex flex-col min-w-0">
       {/* Voice/Text toggle */}
-      <div className="flex justify-end px-4 pt-3 max-w-2xl mx-auto w-full shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="text-amber-700 text-sm">{isVoiceMode ? '🎙️ Voice' : '⌨️ Text'}</span>
+      <div className="flex justify-end px-6 pt-6 max-w-2xl mx-auto w-full shrink-0">
+        <div className="flex items-center gap-3">
+          <span className="text-stone-500 text-sm">{isVoiceMode ? 'Voice' : 'Text'}</span>
           <button
             onClick={() => setIsVoiceMode(!isVoiceMode)}
-            className={`relative w-12 h-6 rounded-full transition-colors ${isVoiceMode ? 'bg-amber-500' : 'bg-amber-300'}`}
+            className={`relative w-11 h-6 rounded-full transition-colors ${isVoiceMode ? 'bg-[var(--color-accent)]' : 'bg-stone-300'}`}
           >
-            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${isVoiceMode ? 'translate-x-7' : 'translate-x-1'}`} />
+            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${isVoiceMode ? 'translate-x-6' : 'translate-x-1'}`} />
           </button>
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 max-w-2xl mx-auto w-full">
+      {/* Messages - minimal, editorial */}
+      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 max-w-2xl mx-auto w-full">
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            {msg.role === 'assistant' && <span className="text-2xl mr-2 self-end">☕</span>}
-            <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-              msg.role === 'user' ? 'bg-amber-900 text-white rounded-br-sm' : 'bg-white text-gray-800 shadow-sm rounded-bl-sm'
-            }`}>
-              {msg.content}
-            </div>
+            {msg.role === 'user' ? (
+              <div className="max-w-[85%] px-4 py-2.5 rounded-lg text-sm leading-relaxed text-white bg-[#1c1c1c]">
+                {msg.content}
+              </div>
+            ) : (
+              <div className="max-w-[85%] pl-4 border-l-2 border-stone-200 py-1 text-sm leading-relaxed text-stone-800">
+                {msg.content}
+              </div>
+            )}
           </div>
         ))}
 
         {isLoading && (
           <div className="flex justify-start">
-            <span className="text-2xl mr-2">☕</span>
-            <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm">
+            <div className="pl-4 border-l-2 border-stone-200 py-1">
               <div className="flex gap-1">
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-1.5 h-1.5 bg-stone-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
         )}
 
         {receipt && orderPlaced && (
-          <div className="bg-white border-2 border-amber-200 rounded-2xl p-5 shadow-md mx-auto w-full max-w-sm">
-            <div className="text-center mb-4">
-              <p className="text-2xl">🧾</p>
-              <h3 className="font-bold text-amber-900 text-lg">Your Order Receipt</h3>
-              <p className="text-gray-500 text-xs">{new Date().toLocaleString()}</p>
-            </div>
-            <div className="space-y-2 mb-4">
+          <div className="border border-stone-200 bg-white py-8 px-8 mx-auto w-full max-w-md">
+            <h3 className="font-serif text-lg font-semibold text-stone-900 mb-1">Your order</h3>
+            <p className="text-stone-500 text-xs mb-6">{new Date().toLocaleString()}</p>
+            <div className="space-y-3 mb-6">
               {receipt.items.map((item, i) => (
                 <div key={i} className="flex justify-between text-sm">
                   <div>
-                    <p className="font-medium text-gray-800">{item.quantity}x {item.name}</p>
-                    <p className="text-gray-500 text-xs">{[item.size, item.temperature, item.milk, ...(item.modifications || [])].filter(Boolean).join(', ')}</p>
+                    <p className="text-stone-800">{item.quantity}x {item.name}</p>
+                    <p className="text-stone-500 text-xs">{[item.size, item.temperature, item.milk, ...(item.modifications || [])].filter(Boolean).join(', ')}</p>
                   </div>
-                  <p className="font-medium text-gray-800">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="text-stone-700 tabular-nums">${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
-            <div className="border-t border-amber-200 pt-3 flex justify-between font-bold text-amber-900">
+            <div className="border-t border-stone-200 pt-4 flex justify-between font-semibold text-stone-900">
               <span>Total</span>
               <span>${receipt.total.toFixed(2)}</span>
             </div>
-            <p className="text-center text-gray-500 text-xs mt-3">Please pay at the counter. Thank you! ☕</p>
+            <p className="text-stone-500 text-xs mt-4 text-center">Pay at the counter.</p>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="bg-white border-t border-amber-100 px-4 py-4 max-w-2xl mx-auto w-full">
+      {/* Input Area - clean underline / minimal */}
+      <div className="bg-white border-t border-stone-200/80 px-6 py-5 max-w-2xl mx-auto w-full">
         {isVoiceMode ? (
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-4">
             <button
               onClick={startListening}
               disabled={isListening || isPlaying || isLoading || orderPlaced}
-              className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl shadow-lg transition-all ${
-                isListening ? 'bg-red-500 scale-110 animate-pulse'
-                : isPlaying ? 'bg-amber-300 cursor-not-allowed'
-                : orderPlaced ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-amber-900 hover:bg-amber-700 active:scale-95'
+              className={`w-16 h-16 rounded-full flex items-center justify-center text-xl transition-all ${
+                isListening ? 'bg-red-500 scale-105 animate-pulse'
+                : isPlaying ? 'bg-stone-200 cursor-not-allowed text-stone-500'
+                : orderPlaced ? 'bg-stone-100 cursor-not-allowed text-stone-400'
+                : 'bg-[var(--color-accent)] hover:opacity-90 active:scale-95 text-white'
               }`}
             >
-              {isListening ? '🎙️' : isPlaying ? '🔊' : '🎤'}
+              {isListening ? '…' : isPlaying ? '…' : 'Mic'}
             </button>
-            <p className="text-gray-500 text-sm">
-              {isListening ? 'Listening...' : isPlaying ? 'Brew is speaking...' : orderPlaced ? 'Order placed!' : 'Tap to speak'}
+            <p className="text-stone-500 text-xs">
+              {isListening ? 'Listening…' : isPlaying ? 'Brew is speaking…' : orderPlaced ? 'Order placed' : 'Tap to speak'}
             </p>
           </div>
         ) : (
-          <div className="flex gap-2">
+          <div className="flex items-end gap-3 border-b border-stone-200 pb-1 focus-within:border-stone-400 transition-colors">
             <input
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSend()}
-              placeholder="Type your order..."
-              className="flex-1 border border-amber-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-amber-500"
+              placeholder="Type your order…"
+              className="flex-1 bg-transparent py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none"
               disabled={isLoading || orderPlaced}
             />
             <button
               onClick={() => handleSend()}
               disabled={isLoading || !input.trim() || orderPlaced}
-              className="bg-amber-900 text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-amber-700 disabled:opacity-50 transition-colors"
+              className="text-sm font-medium text-[var(--color-accent)] hover:opacity-80 disabled:opacity-40 transition-opacity pb-2"
             >
               Send
             </button>
