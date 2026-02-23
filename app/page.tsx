@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Order } from '@/lib/googleSheets'
+import { MENU } from '@/lib/menu'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
 // ============ TYPES ============
@@ -263,9 +264,35 @@ function CustomerView() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-100px)]">
+    <div className="flex h-[calc(100vh-100px)]">
+      {/* Menu panel - left */}
+      <aside className="w-72 shrink-0 flex flex-col border-r border-amber-200 bg-white shadow-sm overflow-hidden">
+        <div className="px-4 py-3 border-b border-amber-100 bg-amber-50">
+          <h2 className="font-bold text-amber-900 text-sm uppercase tracking-wide">Menu</h2>
+        </div>
+        <div className="flex-1 overflow-y-auto py-3">
+          {Object.entries(MENU).map(([key, category]) => (
+            <div key={key} className="px-4 mb-5">
+              <h3 className="text-amber-800 font-semibold text-xs uppercase tracking-wider mb-2 sticky top-0 bg-white py-1 border-b border-amber-100">
+                {category.name}
+              </h3>
+              <ul className="space-y-1.5">
+                {Object.entries(category.items).map(([itemKey, item]) => (
+                  <li key={itemKey} className="flex justify-between items-baseline gap-2 text-sm">
+                    <span className="text-gray-800 truncate">{item.name}</span>
+                    <span className="text-amber-900 font-medium shrink-0">${item.price.toFixed(2)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      {/* Chat - right */}
+      <div className="flex-1 flex flex-col min-w-0">
       {/* Voice/Text toggle */}
-      <div className="flex justify-end px-4 pt-3 max-w-2xl mx-auto w-full">
+      <div className="flex justify-end px-4 pt-3 max-w-2xl mx-auto w-full shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-amber-700 text-sm">{isVoiceMode ? '🎙️ Voice' : '⌨️ Text'}</span>
           <button
@@ -371,6 +398,7 @@ function CustomerView() {
             </button>
           </div>
         )}
+      </div>
       </div>
     </div>
   )
