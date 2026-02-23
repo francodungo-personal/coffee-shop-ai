@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY!
-const VOICE_ID = 'EXAVITQu4vr4xnSDxMaL' // Sarah - friendly female voice
+const VOICE_ID = 'EXAVITQu4vr4xnSDxMaL'
 
 export async function POST(req: NextRequest) {
   try {
     const { text } = await req.json()
 
     if (!text) {
-      return NextResponse.json(
-        { error: 'No text provided' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'No text provided' }, { status: 400 })
     }
 
-    // Clean the text — remove any receipt blocks before converting to speech
     const cleanText = text
       .replace(/ORDER_RECEIPT_START[\s\S]*?ORDER_RECEIPT_END/g, '')
       .replace(/[*_~`]/g, '')
       .trim()
+
+    console.log('ElevenLabs API Key present:', !!ELEVENLABS_API_KEY)
+    console.log('Key prefix:', ELEVENLABS_API_KEY?.substring(0, 8))
 
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           text: cleanText,
-          model_id: 'eleven_monolingual_v1',
+          model_id: 'eleven_turbo_v2_5',
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.75
@@ -39,7 +38,11 @@ export async function POST(req: NextRequest) {
       }
     )
 
+    console.log('ElevenLabs response status:', response.status)
+
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error('ElevenLabs error body:', errorText)
       throw new Error(`ElevenLabs API error: ${response.status}`)
     }
 
@@ -53,9 +56,6 @@ export async function POST(req: NextRequest) {
     })
   } catch (error) {
     console.error('TTS API error:', error)
-    return NextResponse.json(
-      { error: 'Failed to generate audio' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to generate audio' }, { status: 500 })
   }
 }
