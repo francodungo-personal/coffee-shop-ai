@@ -27,11 +27,11 @@ export async function saveOrder(order: Order): Promise<boolean> {
   try {
     const response = await fetch(SHEET_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'addOrder', order })
     })
-    const data = await response.json()
-    return data.success
+    return true
   } catch (error) {
     console.error('Error saving order:', error)
     return false
@@ -55,13 +55,13 @@ export async function fetchOrders(): Promise<Order[]> {
 
 export async function updateOrderStatus(order_id: string, status: string): Promise<boolean> {
   try {
-    const response = await fetch(SHEET_URL, {
+    await fetch(SHEET_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'updateStatus', order_id, status })
     })
-    const data = await response.json()
-    return data.success
+    return true
   } catch (error) {
     console.error('Error updating order status:', error)
     return false
